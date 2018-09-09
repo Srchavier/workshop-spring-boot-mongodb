@@ -2,6 +2,7 @@ package com.eduardor.workshopmongo.services;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,13 @@ public class UserService {
 	public void deleteById(String id) {
 		findById(id);
 		userRepository.deleteById(id);
+	}
+
+	public User update(User obj) {
+		User user = findById(obj.getId());
+		BeanUtils.copyProperties(obj, user, "id");
+		return userRepository.save(obj);
+
 	}
 
 	public User fromDTO(UserDTO dto) {
